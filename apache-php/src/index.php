@@ -3,27 +3,41 @@
 declare(strict_types=1);
 
 require_once 'flight/Flight.php';
+require_once 'config.php';
 
 Flight::route('/', function() {
     Flight::render('accueil');
 });
 
-Flight::route('/test-db', function () {
-    $host = 'db';
-    $port = 5432;
-    $dbname = 'mydb';
-    $user = 'postgres';
-    $pass = 'postgres';
+// API : tous les objets visibles
+Flight::route('GET /api/objets', function() use ($link) {
+    $sql = "SELECT id_objet, nom, type_objet, code_deverrouille, id_objet_precedent, indice,
+                   trouve, visible, niveau_zoom_min, icone,
+                   ST_X(geom) AS lon, ST_Y(geom) AS lat
+            FROM objets
+            WHERE visible = true";
 
-    // Connexion BDD
-    $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
+    $result = pg_query($link, $sql);
+    $rows = pg_fetch_all($result);
 
-    $sql = "SELECT * FROM points";
-    $query = pg_query($link, $sql);
-    $results = pg_fetch_all($query);
-    Flight::json($results);
+    Flight::json($rows);
 });
+
+// API : objet précis
+Flight::route('GET /api/objets/@id', function($id) use ($link) {
+    $sql = "SELECT id_objet, nom, type_objet, code_deverrouille, id_objet_precedent, indice,
+                   trouve, visible, niveau_zoom_min, icone,
+                   ST_X(geom) AS lon, ST_Y(geom) AS lat
+            FROM objets
+            WHERE id_objet = $id";
+
+    $result = pg_query($link, $sql);
+    $row = pg_fetch_assoc($result);
+
+    Flight::json($row);
+});
+
 
 Flight::start();
 
-?>
+ 
