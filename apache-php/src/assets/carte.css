@@ -1,9 +1,81 @@
-#map {
-    height: 600px;
-    width: 100%;
-}
-
-body {
+/* Reset */
+body, html {
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: Arial, sans-serif;
 }
+
+/* Container principal en grid */
+.game-container {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* 250px pour inventaire, reste pour la carte */
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Inventaire */
+#inventaire {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-right: 2px solid #ccc;
+    overflow-y: auto;
+}
+
+#inventaire h2 {
+    margin-top: 0;
+}
+
+#liste-inventaire {
+    list-style: none;
+    padding: 0;
+}
+
+#liste-inventaire li {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Carte + header */
+#map-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* <-- important pour que flex:1 fonctionne */
+}
+
+.map-header {
+    padding: 10px;
+    background-color: rgba(255,255,255,0.9);
+    z-index: 1000;
+}
+
+#map {
+    flex: 1; /* prend tout l'espace restant */
+    min-height: 400px; /* sécurité pour s'assurer qu'elle soit visible */
+}
+
+
+/* Modal pour les indices 
+.modal-overlay {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    max-width:400px;
+    text-align:center;
+}
+
+*/
