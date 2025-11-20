@@ -18,8 +18,8 @@ Flight::route('/', function() {
 // API : tous les objets visibles
 Flight::route('GET /api/objets', function() {
     $db = Flight::get('connexion');
-    $sql = "SELECT id_objet, nom, type_objet, code_deverrouille, id_objet_precedent, indice,
-                   trouve, visible, niveau_zoom_min, icone, indice,
+    $sql = "SELECT id_objet, nom, description, type_objet, id_objet_precedent,
+                   indice_precedent, indice_propre, indice_suivant, niveau_zoom_min, icone,
                    ST_X(geom) AS lon, ST_Y(geom) AS lat
             FROM objets
             WHERE visible = true";
@@ -32,8 +32,8 @@ Flight::route('GET /api/objets', function() {
 // API : objet précis
 Flight::route('GET /api/objets/@id', function($id) {
     $db = Flight::get('connexion');
-    $sql = "SELECT id_objet, nom, type_objet, code_deverrouille, id_objet_precedent, indice,
-                   trouve, visible, niveau_zoom_min, icone, indice,
+    $sql = "SELECT id_objet, nom, description, type_objet, id_objet_precedent,
+                   indice_precedent, indice_propre, indice_suivant, niveau_zoom_min, icone,
                    ST_X(geom) AS lon, ST_Y(geom) AS lat
             FROM objets
             WHERE id_objet = $1";
